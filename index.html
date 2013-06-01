@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8" />
   <title>Logo Challenge</title>
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
   <script src="jquery.ui.touch-punch.min.js"></script>
@@ -11,17 +10,27 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="black_dot" class="ui-widget-content">
-    <img src = "images/ia-logo/ia-logo-dot-black.png" alt = "black dot" />
+  <div id="dot_container">  
+  <ul>
+    <li>
+      <img class="ui-widget-content" id="blue_dot" src = "images/ia-logo/ia-logo-dot-blue.png" alt = "blue dot" />
+    </li>
+    <li>
+      <img class="ui-widget-content" id="red_dot" src = "images/ia-logo/ia-logo-dot-red.png" alt = "red dot" />
+    </li>
+    <li>
+      <img class="ui-widget-content" id="green_dot" src = "images/ia-logo/ia-logo-dot-green.png" alt = "green dot"  />
+    </li>    
+    <li>
+      <img class="ui-widget-content" id="1_black_dot" src = "images/ia-logo/ia-logo-dot-black.png" alt = "black dot" />
+    </li>
+    <li>
+      <img class="ui-widget-content" id="2_black_dot" src = "images/ia-logo/ia-logo-dot-black.png" alt = "black dot" />
+    </li>
+  </ul>
+  </div>    
+  <div id="logo_container">    
+    <img class="ui-widget-content" id="logo" src = "images/ia-logo/ia-logo-back-copy.png" alt = "logo" class="image" />
   </div>
-  <div id="blue_dot" class="ui-widget-content">
-    <img src = "images/ia-logo/ia-logo-dot-blue.png" alt = "blue dot" />
-  </div>
-  <div id="green_dot" class="ui-widget-content">
-    <img src = "images/ia-logo/ia-logo-dot-green.png" alt = "green dot" />
-  </div>
-  <div id="red_dot" class="ui-widget-content">
-    <img src = "images/ia-logo/ia-logo-dot-red.png" alt = "red dot" />
-  </div> 
 </body>
 </html>

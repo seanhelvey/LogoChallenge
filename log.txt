@@ -1,4 +1,5 @@
 Wednesday May 29th
 Trying to get simple draggable dot example working. Not thinking much about design or testing at this point, just a first iteration. Wondering if I need jQuery UI.
 
-
+Saturday June 1st
+Difficult time with centering in CSS. Remembering how little I know about front-end and web standards! Would love to focus on this and master it.

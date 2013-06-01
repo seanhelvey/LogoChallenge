@@ -1,1 +1,34 @@
-div[id$=dot] { width: 0px; height: 0px; padding: 0em; border-style: none; }
+ul {
+	list-style: none;
+	display: inline;
+}
+
+li { 
+	display: inline;
+}
+
+#dot_container { 
+  height: 5em;	
+  width: 30em;
+	margin: 0 auto;	
+	padding-top: 2em;
+}
+
+img[id*="dot"] {
+  width: 3.75em;
+	margin: 0 auto;	
+	padding-right: 1.25em;
+	border-style: none; 
+	z-index: 1	
+}
+
+#logo_container { 
+  width: 25em;
+	margin: 0 auto;
+}
+
+#logo { 
+  width: 25em;
+	margin: 0 auto;	
+	z-index: 0;	
+}

@@ -1,3 +1,3 @@
 $(function() {
-  $("[id$='dot']").draggable(); 
+  $(".ui-widget-content").draggable(); 
 });
