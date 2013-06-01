@@ -2,10 +2,10 @@ $(function() {
 
 var canvas;
 var ctx;
-var x = 75;
-var y = 50;
+var x = 40;
+var y = 40;
 var WIDTH = 400;
-var HEIGHT = 500;
+var HEIGHT = 470;
 var dragok = false;
 
 function rect(x,y,w,h) {
@@ -23,6 +23,8 @@ function init() {
  canvas = document.getElementById("canvas");
  ctx = canvas.getContext("2d");
 
+
+
  canvas.addEventListener("mousedown", mouseDown, false);
  canvas.addEventListener("mouseup", mouseUp, false);
  canvas.addEventListener("mousemove", mouseMove, false); 
@@ -37,7 +39,14 @@ function draw() {
  clear();
  ctx.fillStyle = "#FAF7F8";
  rect(0,0,WIDTH,HEIGHT);
- ctx.fillStyle = "#444444";
+ ctx.fillStyle = "#FF0000";
+
+ if (img == null){
+	var img = new Image();
+ 	img.src = 'images/ia-logo/ia-logo-back-copy.png'
+  ctx.drawImage(img,0,70,400,400);
+}
+
  rect(x - 15, y - 15, 30, 30);
 }
 
