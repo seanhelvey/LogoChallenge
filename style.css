@@ -43,3 +43,19 @@ button {
   width: 5em;	
 	margin: 0 auto;
 }
+
+#canvas_container { 
+  width: 400px;
+  margin: 0px auto;	
+}
+
+/*
+#canvas { 
+  width: 50em;
+	margin: 0 auto;	
+}
+*/
+
+.no-copy {
+  -webkit-user-select: none;
+}
