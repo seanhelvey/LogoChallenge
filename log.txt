@@ -3,3 +3,6 @@ Trying to get simple draggable dot example working. Not thinking much about desi
 
 Saturday June 1st
 Difficult time with centering in CSS. Remembering how little I know about front-end and web standards! Would love to focus on this and master it.
+
+Sunday June 2nd
+Most of the basic functionality is in place for both DOM and canvas versions, but I need to implement the dots locking into the right place within the logo. Hope to tackle this today. Going to start by logging info about the dom elements, then controlling that.
