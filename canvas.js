@@ -3,8 +3,8 @@ $(function() {
 var canvas;
 var ctx;
 var i = 0;
-var x = [40,140,240];
-var y = [40,40,40];
+var x = [30,115,200,285,370];
+var y = [40,40,40,40,40];
 var WIDTH = 400;
 var HEIGHT = 500;
 var dragok = false;
@@ -45,13 +45,15 @@ function hokeyPokey(){
 	draw1();
 	draw2();
 	draw3();
+  draw4();
+  draw5();  
 }
 
 function draw1() {
  clear();
  ctx.fillStyle = "#FFFFFF";
  rect(0,0,WIDTH,HEIGHT);
- ctx.fillStyle = "#FF0000";
+ ctx.fillStyle = "#007fff";
 
  if (img == null){
 	var img = new Image();
@@ -81,7 +83,7 @@ function draw3() {
  //clear();
  ctx.fillStyle = "#FFFFFF";
  //rect(0,0,WIDTH,HEIGHT);
- ctx.fillStyle = "#FF0000";
+ ctx.fillStyle = "#9cb426";
 
 /*
  if (img == null){
@@ -91,6 +93,38 @@ function draw3() {
 }*/
 
  arc(x[2], y[2]);
+}
+
+function draw4() {
+ //clear();
+ ctx.fillStyle = "#FFFFFF";
+ //rect(0,0,WIDTH,HEIGHT);
+ ctx.fillStyle = "#1b1224";
+
+/*
+ if (img == null){
+  var img = new Image();
+  img.src = 'images/ia-logo/ia-logo-back-copy.png'
+  ctx.drawImage(img,0,100,400,400);
+}*/
+
+ arc(x[3], y[3]);
+}
+
+function draw5() {
+ //clear();
+ ctx.fillStyle = "#FFFFFF";
+ //rect(0,0,WIDTH,HEIGHT);
+ ctx.fillStyle = "#1b1224";
+
+/*
+ if (img == null){
+  var img = new Image();
+  img.src = 'images/ia-logo/ia-logo-back-copy.png'
+  ctx.drawImage(img,0,100,400,400);
+}*/
+
+ arc(x[4], y[4]);
 }
 
 function mouseMove(e){
@@ -135,7 +169,7 @@ function touchDown(e){
 
 function test(e){
 var result = false;
-for(var iter = 0; iter < 3; iter++){
+for(var iter = 0; iter < 5; iter++){
  if (e.pageX < x[iter] + 15 + canvas.offsetLeft && 
  		 e.pageX > x[iter] - 15 + canvas.offsetLeft && 
  		 e.pageY < y[iter] + 15 + canvas.offsetTop &&
