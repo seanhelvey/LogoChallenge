@@ -2,23 +2,22 @@ $(function() {
 
 var canvas;
 var ctx;
-var x = 50;
-var y = 50;
+var x = 40;
+var y = 40;
 var WIDTH = 400;
 var HEIGHT = 500;
 var dragok = false;
-var radius = 15;
-
-function arc(x,y,w,h) {
- ctx.beginPath();
- ctx.arc(x,y,30,0,2*Math.PI);
- ctx.closePath();
- ctx.fill();
-}
 
 function rect(x,y,w,h) {
  ctx.beginPath();
  ctx.rect(x,y,w,h);
+ ctx.closePath();
+ ctx.fill();
+}
+
+function arc(x,y) {
+ ctx.beginPath();
+ ctx.arc(x,y, 30, 0, Math.PI*2, true);
  ctx.closePath();
  ctx.fill();
 }
@@ -30,6 +29,8 @@ function clear() {
 function init() {
  canvas = document.getElementById("canvas");
  ctx = canvas.getContext("2d");
+
+
 
  canvas.addEventListener("mousedown", mouseDown, false);
  canvas.addEventListener("mouseup", mouseUp, false);
@@ -43,17 +44,17 @@ function init() {
 
 function draw() {
  clear();
- ctx.fillStyle = "#FAF7F8";
- //rect(0,0,WIDTH,HEIGHT);
+ ctx.fillStyle = "#FFFFFF";
+ rect(0,0,WIDTH,HEIGHT);
  ctx.fillStyle = "#FF0000";
 
  if (img == null){
 	var img = new Image();
  	img.src = 'images/ia-logo/ia-logo-back-copy.png'
-  ctx.drawImage(img,0,90,400,400);
+  ctx.drawImage(img,0,100,400,400);
 }
 
- arc(x-15,y-15,20)
+  arc(x, y);
 }
 
 function mouseMove(e){
@@ -64,19 +65,19 @@ function mouseMove(e){
 }
 
 function mouseDown(e){
- if ( test(e) ){
+ if (e.pageX < x + 15 + canvas.offsetLeft && e.pageX > x - 15 +
+ canvas.offsetLeft && e.pageY < y + 15 + canvas.offsetTop &&
+ e.pageY > y -15 + canvas.offsetTop){
   x = e.pageX - canvas.offsetLeft;
   y = e.pageY - canvas.offsetTop;
   dragok = true;
+  canvas.onmousemove = mouseMove;
  }
-}
-
-function mouseUp(){
- dragok = false;
 }
 
 function touchUp(){
  dragok = false;
+ canvas.onmousemove = null;
 }
 
 function touchMove(e){
@@ -91,30 +92,17 @@ function touchMove(e){
 }
 
 function touchDown(e){
- if ( test(e) ){
-  x = e.pageX + canvas.offsetLeft;
-  y = e.pageY + canvas.offsetTop;
+ if (e.pageX < x + 15 + canvas.offsetLeft && e.pageX > x - 15 +
+ canvas.offsetLeft && e.pageY < y + 15 + canvas.offsetTop &&
+ e.pageY > y -15 + canvas.offsetTop){
+  x = e.pageX - canvas.offsetLeft;
+  y = e.pageY - canvas.offsetTop;
   dragok = true;
  }
 }
 
-function test(e){
-	if(
-		e.pageX < x + radius + canvas.offsetLeft 
-		&& e.pageX > x - radius + canvas.offsetLeft 
-
-    && 
-
-    e.pageY < y + radius + canvas.offsetTop 
- 		&& e.pageY > y - radius + canvas.offsetTop
- 		) 
-	{
-		return true
-	}
-	else 
-	{
-		return false
-	}
+function mouseUp(){
+ dragok = false;
 }
 
 init();
