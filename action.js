@@ -1,5 +1,12 @@
 $(function() {	
+
   $("[id$='dot']").draggable();
+  $("#logo").droppable({
+			drop: function( event, ui ) {
+				console.log(ui.helper.context.id);
+				$("#blue_dot").off();
+  		}
+  })
 
 	$("#reset_button").click(function() {
   	document.location.reload(true)

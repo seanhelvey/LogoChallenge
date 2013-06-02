@@ -2,7 +2,7 @@ Wednesday May 29th
 Trying to get simple draggable dot example working. Not thinking much about design or testing at this point, just a first iteration. Wondering if I need jQuery UI.
 
 Saturday June 1st
-Difficult time with centering in CSS. Remembering how little I know about front-end and web standards! Would love to focus on this and master it.
+Difficult time with centering in CSS. Remembering how little I know about front-end and web standards! Positioning (static, absolute, relative, etc) has been tough with the inline list. Would love to focus on this and master it! Using containers to center most things except canvas. Right now canvas is fairly small, would like it to be larger so that user does not get cut off when dragging around the screen.
 
 Sunday June 2nd
-Most of the basic functionality is in place for both DOM and canvas versions, but I need to implement the dots locking into the right place within the logo. Hope to tackle this today. Going to start by logging info about the dom elements, then controlling that.
+Most of the basic functionality is in place for both DOM and canvas versions, but I need to implement the dots locking into the right place within the logo. Hope to tackle this today. Going to start by logging info about the dom elements, then controlling that. Mouseover was prone to bugs because I would accidently mouseover the correct area and trigger the event, where mouseup was really the most appropriate for this purpose. Having a hard time acheiving right level of accuracy.
