@@ -9,6 +9,38 @@ var WIDTH = 400;
 var HEIGHT = 500;
 var dragok = false;
 
+var BBLUE_CUR = [360,400,600,640];
+var BBLUE = [540,580,720,760];
+//var IBLUE = [480,520,720,760];
+
+var BRED_CUR = [440,480,600,640];
+var BRED = [660,700,735,775];
+//var IRED = [480,520,720,760];
+
+var BGREEN_CUR = [530,570,600,640];
+var BGREEN = [450,490,905,945];
+//var IGREEN = [480,520,720,760];
+
+var BBLACK1_CUR = [615,655,600,640];
+var BBLACK1 = [390,430,815,855];
+//var IGREEN = [480,520,720,760];
+
+var BBLACK2_CUR = [700,740,600,640];
+var BBLACK2 = [635,675,875,915];
+//var IGREEN = [480,520,720,760];
+
+var blue_live = true;
+var red_live = true;
+var green_live = true;
+var black1_live = true;
+var black2_live = true;
+
+var end_x=0;
+var end_y=0;
+var end_dot;
+
+var current_dot;
+
 function rect(x,y,w,h) {
  ctx.beginPath();
  ctx.rect(x,y,w,h);
@@ -50,21 +82,26 @@ function hokeyPokey(){
 }
 
 function draw1() {
- clear();
- ctx.fillStyle = "#FFFFFF";
- rect(0,0,WIDTH,HEIGHT);
- ctx.fillStyle = "#007fff";
+ //if(blue_live){  
+  clear();
+  ctx.fillStyle = "#FFFFFF";
+  rect(0,0,WIDTH,HEIGHT);
+  ctx.fillStyle = "#007fff";
 
- if (img == null){
-	var img = new Image();
- 	img.src = 'images/ia-logo/ia-logo-back-copy.png'
-  ctx.drawImage(img,0,100,400,400);
-}
+  if (img == null){
+	 var img = new Image();
+ 	 img.src = 'images/ia-logo/ia-logo-back-copy.png'
+   ctx.drawImage(img,0,100,400,400);
+  }
+
   arc(x[0], y[0]);
+ //}
 }
 
 function draw2() {
+
  //clear();
+
  ctx.fillStyle = "#FFFFFF";
  //rect(0,0,WIDTH,HEIGHT);
  ctx.fillStyle = "#FF0000";
@@ -128,9 +165,11 @@ function draw5() {
 }
 
 function mouseMove(e){
- if (dragok){
+ if (dragok && blue_live){
   x[i] = e.pageX - canvas.offsetLeft;
   y[i] = e.pageY - canvas.offsetTop;
+
+  end_dot = setDotB(e);
  }
 }
 
@@ -144,9 +183,18 @@ function mouseDown(e){
  }
 }
 
-function touchUp(){
+function mouseUp(e){
+ dragok = false;
+ console.log(e.pageX); 
+ console.log(e.pageY); 
+ check(e);
+}
+
+function touchUp(e){
  dragok = false;
  canvas.onmousemove = null;
+ iCheck();
+
 }
 
 function touchMove(e){
@@ -154,10 +202,18 @@ function touchMove(e){
    e = event;
   e.preventDefault();
 
- if (dragok){
+ if (dragok && blue_live){
   x[i] = e.pageX - canvas.offsetLeft;
   y[i] = e.pageY - canvas.offsetTop;
  }
+  
+end_x = e.pageX;
+end_y = e.pageY;
+
+end_dot = SetDotI();
+
+ //$("#debugx").text(e.pageX);
+ //$("#debugy").text(e.pageY);  
 }
 
 function touchDown(e){
@@ -176,17 +232,17 @@ for(var iter = 0; iter < 5; iter++){
  		 e.pageX > x[iter] - 15 + canvas.offsetLeft && 
  		 e.pageY < y[iter] + 15 + canvas.offsetTop &&
  		 e.pageY > y[iter] - 15 + canvas.offsetTop){
- 	console.log(e.pageX);
- 	console.log(e.pageY);
+ 	//console.log(e.pageX);
+ 	//console.log(e.pageY);
      i = iter;
-   console.log(i);
-   console.log(x[iter]);
+   //console.log(i);
+   //console.log(x[iter]);
    result = true;
  }
  else {
  	//console.log(e.pageX);
  	//console.log(e.pageY); 
- 	console.log(x[iter]);	  
+ 	//console.log(x[iter]);	  
  }
 
 }
@@ -195,8 +251,50 @@ return result;
 
 }
 
-function mouseUp(){
- dragok = false;
+function check(e){  
+  if(e.pageX > BBLUE[0] && e.pageX < BBLUE[1]
+    && e.pageY > BBLUE[2] && e.pageY < BBLUE[3]){
+    console.log("yes");
+    blue_live = false;
+  }
+}
+
+function iCheck(){   
+  if(end_x > IBLUE[0] && end_x < IBLUE[1]
+    && end_y > IBLUE[2] && end_y < IBLUE[3]){
+    blue_live = false;
+  }
+}
+
+function setDotB(e){
+    if(e.pageX > BBLUE_CUR[0] && e.pageX < BBLUE_CUR[1]
+    && e.pageY > BBLUE_CUR[2] && e.pageY < BBLUE_CUR[3]){
+      end_dot = "blue";
+      console.log("blue");
+      BBLUE_CUR[0] = e.pageX - 20;
+      BBLUE_CUR[1] = e.pageX + 20;
+      BBLUE_CUR[2] = e.pageY - 20;
+      BBLUE_CUR[3] = e.pageY + 20;
+      console.log(BBLUE_CUR);
+  } else if (e.pageX > BRED_CUR[0] && e.pageX < BRED_CUR[1]
+    && e.pageY > BRED_CUR[2] && e.pageY < BRED_CUR[3]){
+      end_dot = "red";
+      console.log("red");      
+      BRED_CUR[0] = e.pageX - 20;
+      BRED_CUR[1] = e.pageX + 20;
+      BRED_CUR[2] = e.pageY - 20;
+      BRED_CUR[3] = e.pageY + 20;  
+      console.log(BRED_CUR);    
+  }
+}
+
+ $("#debugx").text(end_x);
+ $("#debugy").text(end_y);
+
+function removeListeners(element){
+  var old_element = document.getElementById(element);
+  var new_element = old_element.cloneNode(true);
+  old_element.parentNode.replaceChild(new_element, old_element);  
 }
 
 init();
