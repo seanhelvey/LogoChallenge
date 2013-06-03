@@ -6,3 +6,7 @@ Difficult time with centering in CSS. Remembering how little I know about front-
 
 Sunday June 2nd
 Most of the basic functionality is in place for both DOM and canvas versions, but I need to implement the dots locking into the right place within the logo. Hope to tackle this today. Going to start by logging info about the dom elements, then controlling that. Mouseover was prone to bugs because I would accidently mouseover the correct area and trigger the event, where mouseup was really the most appropriate for this purpose. Having a hard time acheiving right level of accuracy.
+
+Touch events registering as mouse events for DOM implementation. This is a safari thing?
+https://developer.apple.com/LIBRARY/IOS/#documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
+

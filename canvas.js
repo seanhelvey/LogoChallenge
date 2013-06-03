@@ -135,6 +135,7 @@ function mouseMove(e){
 }
 
 function mouseDown(e){
+  $("#debugx").text("mousedown");  
  if ( test(e) ){
   x[i] = e.pageX - canvas.offsetLeft;
   y[i] = e.pageY - canvas.offsetTop;
@@ -160,6 +161,7 @@ function touchMove(e){
 }
 
 function touchDown(e){
+  $("#debugx").text("touchdown");
  if ( test(e) ){
   x[i] = e.pageX - canvas.offsetLeft;
   y[i] = e.pageY - canvas.offsetTop;
