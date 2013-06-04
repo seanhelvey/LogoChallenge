@@ -70,14 +70,14 @@ $(function() {
 
 	function locationControl(dot_name, currentEvent){
     if (dot_name === "blue_dot"){
-    		console.log(BLUE[0]);
+    	console.log(BLUE[0]);
     	if (inRange(currentEvent,BLUE[0],BLUE[1],BLUE[2],BLUE[3])){
     		$("#debugz").text("hi");     		
     		console.log("a");
     		$("#blue_dot").off();
     	}
     } else if(dot_name === "red_dot"){
-    	    		console.log("xxx"); 
+	    	console.log("xxx"); 
     	if (inRange(currentEvent,RED[0],RED[1],RED[2],RED[3])){
     		console.log("b");    		
     		$("#red_dot").off();
