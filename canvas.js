@@ -165,17 +165,18 @@ function draw5() {
 }
 
 function mouseMove(e){
- if (dragok && blue_live){
+ if (dragok){
   x[i] = e.pageX - canvas.offsetLeft;
   y[i] = e.pageY - canvas.offsetTop;
-
-  end_dot = setDotB(e);
+  setDotB(e);
  }
 }
 
 function mouseDown(e){
+  setDotB(e);
   $("#debugx").text("mousedown");  
- if ( test(e) ){
+ //if ( test(e) && blue_live){
+  if ( test(e) && isLive(e) ){
   x[i] = e.pageX - canvas.offsetLeft;
   y[i] = e.pageY - canvas.offsetTop;
   dragok = true;
@@ -252,10 +253,56 @@ return result;
 }
 
 function check(e){  
-  if(e.pageX > BBLUE[0] && e.pageX < BBLUE[1]
-    && e.pageY > BBLUE[2] && e.pageY < BBLUE[3]){
-    console.log("yes");
-    blue_live = false;
+  if(end_dot === "blue"){
+    if(e.pageX > BBLUE[0] && e.pageX < BBLUE[1]
+      && e.pageY > BBLUE[2] && e.pageY < BBLUE[3]){
+      console.log("yes");
+      blue_live = false;
+      BBLUE_CUR[0] = 0;
+      BBLUE_CUR[1] = 0;
+      BBLUE_CUR[2] = 0;
+      BBLUE_CUR[3] = 0;       
+    }
+  } else if (end_dot === "red"){
+    if(e.pageX > BRED[0] && e.pageX < BRED[1]
+      && e.pageY > BRED[2] && e.pageY < BRED[3]){
+      console.log("yes");
+      red_live = false;
+      BRED_CUR[0] = 0;
+      BRED_CUR[1] = 0;
+      BRED_CUR[2] = 0;
+      BRED_CUR[3] = 0;            
+    } 
+  }else if (end_dot === "green"){
+    if(e.pageX > BGREEN[0] && e.pageX < BGREEN[1]
+      && e.pageY > BGREEN[2] && e.pageY < BGREEN[3]){
+      console.log("yes");
+      green_live = false;
+      BGREEN_CUR[0] = 0;
+      BGREEN_CUR[1] = 0;
+      BGREEN_CUR[2] = 0;
+      BGREEN_CUR[3] = 0;      
+    } 
+  }else if (end_dot === "black1"){
+    if(e.pageX > BBLACK1[0] && e.pageX < BBLACK1[1]
+      && e.pageY > BBLACK1[2] && e.pageY < BBLACK1[3]){
+      console.log("yes");
+      black1_live = false;
+      BBLACK1_CUR[0] = 0;
+      BBLACK1_CUR[1] = 0;
+      BBLACK1_CUR[2] = 0;
+      BBLACK1_CUR[3] = 0;       
+    } 
+  }else if (end_dot === "black2"){
+    if(e.pageX > BBLACK2[0] && e.pageX < BBLACK2[1]
+      && e.pageY > BBLACK2[2] && e.pageY < BBLACK2[3]){
+      console.log("yes");
+      black2_live = false;
+      BBLACK2_CUR[0] = 0;
+      BBLACK2_CUR[1] = 0;
+      BBLACK2_CUR[2] = 0;
+      BBLACK2_CUR[3] = 0;       
+    }
   }
 }
 
@@ -271,25 +318,67 @@ function setDotB(e){
     && e.pageY > BBLUE_CUR[2] && e.pageY < BBLUE_CUR[3]){
       end_dot = "blue";
       console.log("blue");
-      BBLUE_CUR[0] = e.pageX - 20;
-      BBLUE_CUR[1] = e.pageX + 20;
-      BBLUE_CUR[2] = e.pageY - 20;
-      BBLUE_CUR[3] = e.pageY + 20;
+      BBLUE_CUR[0] = e.pageX - 30;
+      BBLUE_CUR[1] = e.pageX + 30;
+      BBLUE_CUR[2] = e.pageY - 30;
+      BBLUE_CUR[3] = e.pageY + 30;
       console.log(BBLUE_CUR);
   } else if (e.pageX > BRED_CUR[0] && e.pageX < BRED_CUR[1]
     && e.pageY > BRED_CUR[2] && e.pageY < BRED_CUR[3]){
       end_dot = "red";
       console.log("red");      
-      BRED_CUR[0] = e.pageX - 20;
-      BRED_CUR[1] = e.pageX + 20;
-      BRED_CUR[2] = e.pageY - 20;
-      BRED_CUR[3] = e.pageY + 20;  
+      BRED_CUR[0] = e.pageX - 30;
+      BRED_CUR[1] = e.pageX + 30;
+      BRED_CUR[2] = e.pageY - 30;
+      BRED_CUR[3] = e.pageY + 30;  
       console.log(BRED_CUR);    
+  }else if (e.pageX > BGREEN_CUR[0] && e.pageX < BGREEN_CUR[1]
+    && e.pageY > BGREEN_CUR[2] && e.pageY < BGREEN_CUR[3]){
+      end_dot = "green";
+      console.log("green");      
+      BGREEN_CUR[0] = e.pageX - 30;
+      BGREEN_CUR[1] = e.pageX + 30;
+      BGREEN_CUR[2] = e.pageY - 30;
+      BGREEN_CUR[3] = e.pageY + 30;  
+      console.log(BGREEN_CUR);    
+  }else if (e.pageX > BBLACK1_CUR[0] && e.pageX < BBLACK1_CUR[1]
+    && e.pageY > BBLACK1_CUR[2] && e.pageY < BBLACK1_CUR[3]){
+      end_dot = "black1";
+      console.log("black1");      
+      BBLACK1_CUR[0] = e.pageX - 30;
+      BBLACK1_CUR[1] = e.pageX + 30;
+      BBLACK1_CUR[2] = e.pageY - 30;
+      BBLACK1_CUR[3] = e.pageY + 30;  
+      console.log(BBLACK1_CUR);    
+  }else if (e.pageX > BBLACK2_CUR[0] && e.pageX < BBLACK2_CUR[1]
+    && e.pageY > BBLACK2_CUR[2] && e.pageY < BBLACK2_CUR[3]){
+      end_dot = "black2";
+      console.log("black2");      
+      BBLACK2_CUR[0] = e.pageX - 30;
+      BBLACK2_CUR[1] = e.pageX + 30;
+      BBLACK2_CUR[2] = e.pageY - 30;
+      BBLACK2_CUR[3] = e.pageY + 30;  
+      console.log(BBLACK2_CUR);    
   }
 }
 
  $("#debugx").text(end_x);
  $("#debugy").text(end_y);
+
+function isLive(e){
+  check(e);
+  if(end_dot === "blue"){
+    return blue_live;
+  } else if (end_dot === "red"){
+    return red_live;
+  } else if (end_dot === "green"){
+    return green_live;
+  } else if (end_dot === "black1"){
+    return black1_live;
+  } else if (end_dot === "black2"){
+    return black2_live;
+  }
+}
 
 function removeListeners(element){
   var old_element = document.getElementById(element);
