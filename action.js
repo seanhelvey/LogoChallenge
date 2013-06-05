@@ -9,12 +9,12 @@ $(function() {
 
   $("[id$='dot']").draggable();
   $("#logo").droppable({
-			drop: function( event, ui ) {
-				console.log(event.toElement.id);
-				console.log($("#"+ event.toElement.id).position().left);
-				console.log($("#"+ event.toElement.id).position().top);
-				locationControl(event.toElement.id,event);
-  		}
+		drop: function( event, ui ) {
+			console.log(event.toElement.id);
+			console.log($("#"+ event.toElement.id).position().left);
+			console.log($("#"+ event.toElement.id).position().top);
+			locationControl(event.toElement.id,event);
+		}
   })
 
 	$("#reset_button").click(function() {
@@ -24,13 +24,11 @@ $(function() {
 	function locationControl(dot_name, currentEvent){
     if (dot_name === "blue_dot"){
     	console.log(BLUE[0]);
-    	if (inRange(currentEvent,BLUE)){
-    		$("#debugz").text("hi");     		
+    	if (inRange(currentEvent,BLUE)){    		
     		console.log("a");
     		$("#blue_dot").off();
     	}
     } else if(dot_name === "red_dot"){
-	    	console.log("xxx"); 
     	if (inRange(currentEvent,RED)){
     		console.log("b");    		
     		$("#red_dot").off();
@@ -54,14 +52,14 @@ $(function() {
 	}
 
 	function inRange(currentEvent, colorMinMax){
-			var x = $("#"+ event.toElement.id).position().left;
-			var y = $("#"+ event.toElement.id).position().top;
-			if (x > colorMinMax[0] - BUFFER && x < colorMinMax[0] + BUFFER
-    	&& y > colorMinMax[1] - BUFFER && y < colorMinMax[1] + BUFFER){
-				return true;
-    	} else {
-    		return false;
-    	}
+		var x = $("#"+ event.toElement.id).position().left;
+		var y = $("#"+ event.toElement.id).position().top;
+		if (x > colorMinMax[0] - BUFFER && x < colorMinMax[0] + BUFFER
+  	&& y > colorMinMax[1] - BUFFER && y < colorMinMax[1] + BUFFER){
+			return true;
+  	} else {
+  		return false;
+  	}
 	}
 
 });
