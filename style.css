@@ -1,3 +1,16 @@
+#parent {
+-webkit-box-align:center;
+-webkit-box-pack:center;
+display:-webkit-box;
+}
+
+#wrapper {
+	position: relative;
+	width: 500px;
+	height: 1500px;
+	border:2px solid red;
+}
+
 #dot_container { 
   height: 5em;	
   width: 30em;

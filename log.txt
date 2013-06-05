@@ -10,3 +10,5 @@ Most of the basic functionality is in place for both DOM and canvas versions, bu
 Touch events registering as mouse events for DOM implementation. This is a safari thing?
 https://developer.apple.com/LIBRARY/IOS/#documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
 
+Tue
+Just noticed that zooming on the page actually changes pageX and pageY -- yikes!!
