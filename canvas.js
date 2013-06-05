@@ -45,7 +45,7 @@ $(function() {
 
   var current_dot;
 
-  //var isIOS = ((/iphone|ipad/gi).test(navigator.appVersion));
+  var isIOS = ((/iphone|ipad/gi).test(navigator.appVersion));
   //var isIOS = ((/iphone|ipad/gi).test(navigator.appVersion));
 
 
@@ -67,8 +67,13 @@ $(function() {
 
 
 
-    //if (isIOS) {
-      //$("#debuga").text("IOS");      
+    if (isIOS) {
+      //$("#debuga").text("IOS"); 
+      var c = $("#canvas_container").detach();
+      $("#wrapper").height(560);
+      c.appendTo("#new_canvas_container");
+    }
+
     canvas.addEventListener("touchstart", touchDown, false);
     canvas.addEventListener("touchend", touchUp, false);
     canvas.addEventListener("touchmove", touchMove, false);
