@@ -16,22 +16,21 @@ $(function() {
   var DOTS = ["Blue","Red","Green","Black1","Black2"]
   var COLORS = ["#007fff","#FF0000","#9cb426","#1b1224","#1b1224"];
 
-
   var BUFFER = 20;
   var BBLUE = [210,157];
   var IBLUE = [480,520,710,750];
 
   var BRED = [332,173];
-  var IRED = [660,700,735,775];
+  var IRED = [600,640,725,765];
 
   var BGREEN = [123,347];
-  var IGREEN = [450,490,905,945];
+  var IGREEN = [395,435,905,945];
 
   var BBLACK1 = [60,253];
-  var IGREEN = [390,430,815,855];
+  var IBLACK1 = [330,370,810,850];
 
   var BBLACK2 = [305,317];
-  var IGREEN = [635,675,875,915];
+  var IBLACK2 = [580,620,870,910];
 
   var blue_live = true;
   var red_live = true;
@@ -154,7 +153,7 @@ $(function() {
 function touchDown(e){
     //$("#debuga").text("touchdown");
 
-    if ( isOnShapeI(e) && blue_live){
+    if ( isOnShapeI(e) && isLive(e)){
       x[i] = e.pageX - canvas.offsetLeft;
       y[i] = e.pageY - canvas.offsetTop;
       dragok = true;
@@ -170,7 +169,7 @@ function touchDown(e){
       e = event;
     e.preventDefault();
 
-    if (dragok && blue_live){
+    if (dragok && isLive(e)){
       x[i] = e.pageX - canvas.offsetLeft;
       y[i] = e.pageY - canvas.offsetTop;
     }
@@ -286,26 +285,26 @@ function touchDown(e){
         blue_live = false;     
       }
     } else if (DOTS[i] === "Red"){
-        if(e.pageX > IRED[0] && e.pageX < IRED[1]
-        && e.pageY > IRED[2] && e.pageY < IRED[3]){
+        if(end_x > IRED[0] && end_x < IRED[1]
+        && end_y > IRED[2] && end_y < IRED[3]){
           console.log("yes");
           red_live = false;          
         } 
     } else if (DOTS[i] === "Green"){
-        if(e.pageX > IGREEN[0] && e.pageX < IGREEN[1]
-        && e.pageY > IGREEN[2] && e.pageY < IGREEN[3]){
+        if(end_x > IGREEN[0] && end_x < IGREEN[1]
+        && end_y > IGREEN[2] && end_y < IGREEN[3]){
           console.log("yes");
           green_live = false;    
         } 
     } else if (DOTS[i] === "Black1"){
-        if(e.pageX > IBLACK1[0] && e.pageX < IBLACK1[1]
-        && e.pageY > IBLACK1[2] && e.pageY < IBLACK1[3]){
+        if(end_x > IBLACK1[0] && end_x < IBLACK1[1]
+        && end_y > IBLACK1[2] && end_y < IBLACK1[3]){
           console.log("yes");
           black1_live = false;    
         } 
     } else if (DOTS[i] === "Black2"){
-        if(e.pageX > IBLACK2[0] && e.pageX < IBLACK2[1]
-        && e.pageY > IBLACK2[2] && e.pageY < IBLACK2[3]){
+        if(end_x > IBLACK2[0] && end_x < IBLACK2[1]
+        && end_y > IBLACK2[2] && end_y < IBLACK2[3]){
           console.log("yes");
           black2_live = false;     
         }
