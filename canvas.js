@@ -13,7 +13,7 @@ $(function() {
   var DOTS = ["Blue","Red","Green","Black1","Black2"]
   var COLORS = ["#007fff","#FF0000","#9cb426","#1b1224","#1b1224"];
 
-  var BUFFER = 20;
+  var BUFFER = 15;
   var BLUE;
   var RED;
   var GREEN;
@@ -48,18 +48,18 @@ $(function() {
     setEndSpotsForDevice();    
 
     if (isIOS) {
-      canvas.addEventListener("touchstart", touchDown, false);
-      canvas.addEventListener("touchend", touchUp, false);
-      canvas.addEventListener("touchmove", touchMove, false); 
+      canvas.addEventListener("touchstart", mouseTouchStart, false);
+      canvas.addEventListener("touchmove", mouseTouchMove, false); 
+      canvas.addEventListener("touchend", mouseTouchEnd, false);      
 
       var c = $("#canvas_container").detach();
       $("#wrapper").height(560);
       c.appendTo("#new_canvas_container");
 
     } else {
-      canvas.addEventListener("mousedown", mouseDown, false);
-      canvas.addEventListener("mouseup", mouseUp, false);
-      canvas.addEventListener("mousemove", mouseMove, false); 
+      canvas.addEventListener("mousedown", mouseTouchStart, false);
+      canvas.addEventListener("mousemove", mouseTouchMove, false); 
+      canvas.addEventListener("mouseup", mouseTouchEnd, false);      
     }
     
     return setInterval(drawAll, 10);
@@ -97,77 +97,69 @@ $(function() {
     }
   }
 
-  function mouseDown(e){       
-    if (isOnShape(e) && isLive(e)){
-      x[i] = e.offsetX;      
-      y[i] = e.offsetY;
-      dragok = true;
-      canvas.onmousemove = mouseMove;
-   }
-  }
+  function deviceCoords(e, last){
+    if (isIOS) {
+      if (last) {
+        xVar = end_x;
+        yVar = end_y;
+      } else {
+        xVar = e.pageX - canvas.offsetLeft;
+        yVar = e.pageY - canvas.offsetTop;      
+      }
+    } else {
+      xVar = e.offsetX;
+      yVar = e.offsetY;    
+    }    
+    return [xVar, yVar];
+  }   
 
-  function mouseMove(e){  
-    if (dragok){      
-      x[i] = e.offsetX;
-      y[i] = e.offsetY;
+  function mouseTouchStart(e){
+    var coords = deviceCoords(e, false);
+    var xRHS = coords[0];
+    var yRHS = coords[1];
+
+    if (isOnShape(e) && isLive(e)){
+      x[i] = xRHS;      
+      y[i] = yRHS;
+      dragok = true;
     }
   }
 
-  function mouseUp(e){    
+  function mouseTouchEnd(e){    
     dragok = false;
     checkIfDead(e);
   }
-  
-function touchDown(e){
-    if (isOnShape(e) && isLive(e)){
-      x[i] = e.pageX - canvas.offsetLeft;
-      y[i] = e.pageY - canvas.offsetTop;
-      dragok = true;
-    } 
-  }
 
-  function touchMove(e){
+  function mouseTouchMove(e){
+    var coords = deviceCoords(e, false);
+    var xRHS = coords[0];
+    var yRHS = coords[1];
+
     if (!e)
       e = event;
     e.preventDefault();
 
-    if (dragok && isLive(e)){
-      x[i] = e.pageX - canvas.offsetLeft;
-      y[i] = e.pageY - canvas.offsetTop;
+    if (dragok){
+      x[i] = xRHS;
+      y[i] = yRHS;
     }
     
     end_x = e.pageX;
     end_y = e.pageY; 
   }
 
-  function touchUp(e){
-    dragok = false;
-    checkIfDead(e);
-  }
-
   function isOnShape(e){
-    var xVar, yVar;
-    var offsetX, offsetY;
-    if(isIOS){
-      xVar = e.pageX;
-      yVar = e.pageY;
-      offsetX = canvas.offsetLeft;
-      offsetY = canvas.offsetTop;      
-    } else {
-      xVar = e.offsetX;
-      yVar = e.offsetY;
-      offsetX = 0;
-      offsetY = 0;      
-    }
+    var coords = deviceCoords(e, false);
+    var xVar = coords[0];
+    var yVar = coords[1];
 
     var result = false;
-    for(var iter = 0; iter < 5; iter++){
-      if (xVar < x[iter] + 15 + offsetX && 
-        xVar > x[iter] - 15 + offsetX && 
-        yVar < y[iter] + 15 + offsetY &&
-        yVar > y[iter] - 15 + offsetY ){
+    for(var iter = 0; iter < COLORS.length; iter++){
+      if (xVar < x[iter] + BUFFER && 
+        xVar > x[iter] - BUFFER && 
+        yVar < y[iter] + BUFFER &&
+        yVar > y[iter] - BUFFER ){
         i = iter;
-        console.log(i);
         result = true;
       } 
     }    
@@ -177,38 +169,34 @@ function touchDown(e){
   }
 
   function checkIfDead(e){
-    var xVar, yVar;
-    if(isIOS){
-      xVar = end_x;
-      yVar = end_y;
-    } else {
-      xVar = e.offsetX;
-      yVar = e.offsetY;    
-    }
+    var coords = deviceCoords(e, true);
+    var xVar = coords[0];
+    var yVar = coords[1];
+
     if(DOTS[i] === "Blue"){
-      if(inRange(xVar, yVar, BLUE)){
+      if(inEndRange(xVar, yVar, BLUE)){
         blue_live = false;       
       }
     } else if (DOTS[i] === "Red"){
-        if(inRange(xVar, yVar, RED)){
+        if(inEndRange(xVar, yVar, RED)){
           red_live = false;          
         } 
     } else if (DOTS[i] === "Green"){
-        if(inRange(xVar, yVar, GREEN)){
+        if(inEndRange(xVar, yVar, GREEN)){
           green_live = false;    
         } 
     } else if (DOTS[i] === "Black1"){
-        if(inRange(xVar, yVar, BLACK1)){
+        if(inEndRange(xVar, yVar, BLACK1)){
           black1_live = false;    
         } 
     } else if (DOTS[i] === "Black2"){
-        if(inRange(xVar, yVar, BLACK2)){
+        if(inEndRange(xVar, yVar, BLACK2)){
           black2_live = false;     
         }
     }
   }
 
-  function inRange(x, y, colorMinMax){
+  function inEndRange(x, y, colorMinMax){
     if (x > colorMinMax[0] - BUFFER && x < colorMinMax[0] + BUFFER
     && y > colorMinMax[1] - BUFFER && y < colorMinMax[1] + BUFFER){
       return true;

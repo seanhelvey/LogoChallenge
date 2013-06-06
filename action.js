@@ -14,11 +14,11 @@ $(function() {
   $("[id$='dot']").draggable();
   $("#logo").droppable({
 		drop: function( event, ui ) {
-			locationControl(event.toElement.id,event);
+			locationControl(event.toElement.id,event);       
 		}
   })
 
-	function locationControl(dot_name, currentEvent){
+	function locationControl(dot_name, currentEvent){    
     if (dot_name === "blue_dot"){
     	if (inRange(currentEvent,BLUE)){ 
     		$("#blue_dot").off();
@@ -42,9 +42,9 @@ $(function() {
     }
 	}
 
-	function inRange(currentEvent, colorMinMax){
+	function inRange(currentEvent, colorMinMax){    
 		var x = $("#"+ event.toElement.id).position().left;
-		var y = $("#"+ event.toElement.id).position().top;
+		var y = $("#"+ event.toElement.id).position().top;  
 		if (x > colorMinMax[0] - BUFFER && x < colorMinMax[0] + BUFFER
   	&& y > colorMinMax[1] - BUFFER && y < colorMinMax[1] + BUFFER){
 			return true;
