@@ -31,17 +31,6 @@ $(function() {
 
   var isIOS = ((/iphone|ipad/gi).test(navigator.appVersion));
 
-  function arc(x,y) {
-    ctx.beginPath();
-    ctx.arc(x,y, 30, 0, Math.PI*2, true);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  function clear() {
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
-  }
-
   function init() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
@@ -65,24 +54,15 @@ $(function() {
     return setInterval(drawAll, 10);
   }
 
-  function setEndSpotsForDevice(){
-    if(isIOS){
-      BLUE = [500,740];
-      RED = [620,745];
-      GREEN = [415,925];
-      BLACK1 = [350,830];
-      BLACK2 = [600,890];
-    } else {
-      BLUE = [210,157];
-      RED = [332,173];
-      GREEN = [123,347];
-      BLACK1 = [60,253];
-      BLACK2 = [305,317];  
-    }
+  function arc(x,y) {
+    ctx.beginPath();
+    ctx.arc(x,y, 30, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.fill();
   }
 
   function drawAll(){
-    clear();
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
     ctx.fillStyle = "#FFFFFF";     
 
     if (img == null){
@@ -166,6 +146,22 @@ $(function() {
 
   return result;
 
+  }
+
+  function setEndSpotsForDevice(){
+    if(isIOS){
+      BLUE = [500,740];
+      RED = [620,745];
+      GREEN = [415,925];
+      BLACK1 = [350,830];
+      BLACK2 = [600,890];
+    } else {
+      BLUE = [210,157];
+      RED = [332,173];
+      GREEN = [123,347];
+      BLACK1 = [60,253];
+      BLACK2 = [305,317];  
+    }
   }
 
   function checkIfDead(e){
