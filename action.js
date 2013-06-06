@@ -7,45 +7,36 @@ $(function() {
 	var BLACK1 = [79,237];
 	var BLACK2 = [328,300];
 
+  $("#reset_button").click(function() {
+    document.location.reload(true)
+  });
+
   $("[id$='dot']").draggable();
   $("#logo").droppable({
 		drop: function( event, ui ) {
-			console.log(event.toElement.id);
-			console.log($("#"+ event.toElement.id).position().left);
-			console.log($("#"+ event.toElement.id).position().top);
 			locationControl(event.toElement.id,event);
 		}
   })
 
-	$("#reset_button").click(function() {
-  	document.location.reload(true)
-	});
-
 	function locationControl(dot_name, currentEvent){
     if (dot_name === "blue_dot"){
-    	console.log(BLUE[0]);
-    	if (inRange(currentEvent,BLUE)){    		
-    		console.log("a");
+    	if (inRange(currentEvent,BLUE)){ 
     		$("#blue_dot").off();
     	}
     } else if(dot_name === "red_dot"){
     	if (inRange(currentEvent,RED)){
-    		console.log("b");    		
     		$("#red_dot").off();
     	}
     } else if(dot_name === "green_dot"){
     	if (inRange(currentEvent,GREEN)){
-    		console.log("c");    		
 	    	$("#green_dot").off();
 	    }
     } else if(dot_name === "1_black_dot"){
     	if (inRange(currentEvent,BLACK1)){
-    		console.log("d");    		
 	    	$("#1_black_dot").off();
 	    }
     } else if(dot_name === "2_black_dot"){
-    	if (inRange(currentEvent,BLACK2)){
-     		console.log("e");   		
+    	if (inRange(currentEvent,BLACK2)){ 		
 	    	$("#2_black_dot").off();
 	    }
     }
