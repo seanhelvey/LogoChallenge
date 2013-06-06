@@ -19,7 +19,7 @@ $(function() {
 
   var BUFFER = 20;
   var BBLUE = [210,157];
-  var IBLUE = [540,580,720,760];
+  var IBLUE = [480,520,710,750];
 
   var BRED = [332,173];
   var IRED = [660,700,735,775];
@@ -72,17 +72,19 @@ $(function() {
       var c = $("#canvas_container").detach();
       $("#wrapper").height(560);
       c.appendTo("#new_canvas_container");
-    }
 
     canvas.addEventListener("touchstart", touchDown, false);
     canvas.addEventListener("touchend", touchUp, false);
-    canvas.addEventListener("touchmove", touchMove, false);
-    //} else {
+    canvas.addEventListener("touchmove", touchMove, false);      
+    }
+
+
+    else {
       //$("#debugb").text("OSX");        
     canvas.addEventListener("mousedown", mouseDown, false);
     canvas.addEventListener("mouseup", mouseUp, false);
     canvas.addEventListener("mousemove", mouseMove, false); 
-    //}
+    }
     
     return setInterval(drawAll, 10);
   }
@@ -150,8 +152,9 @@ $(function() {
   }
   
 function touchDown(e){
-    $("#debugx").text("touchdown");
-    if ( isOnShapeI(e) ){
+    //$("#debuga").text("touchdown");
+
+    if ( isOnShapeI(e) && blue_live){
       x[i] = e.pageX - canvas.offsetLeft;
       y[i] = e.pageY - canvas.offsetTop;
       dragok = true;
@@ -159,6 +162,10 @@ function touchDown(e){
   }
 
   function touchMove(e){
+
+     //$("#debuga").text(e.pageX);
+     //$("#debugb").text(e.pageY); 
+
     if (!e)
       e = event;
     e.preventDefault();
@@ -170,7 +177,12 @@ function touchDown(e){
     
     end_x = e.pageX;
     end_y = e.pageY;
-    end_dot = SetDotI();
+    //end_dot = SetDotI();
+
+     $("#debuga").text(e.pageX);      
+     $("#debugb").text(e.pageX);      
+     $("#debugc").text(e.pageY);      
+     $("#debugd").text(e.pageY);      
 
      //$("#debugx").text(e.pageX);
      //$("#debugy").text(e.pageY);  
@@ -178,8 +190,8 @@ function touchDown(e){
 
   function touchUp(e){
     dragok = false;
-    canvas.onmousemove = null;
-    iCheck(); 
+    //canvas.onmousemove = null;
+    checkIfDeadI(e);
   }
 
   function isOnShape(e){
@@ -211,6 +223,7 @@ function touchDown(e){
         //console.log(e.pageY);
         i = iter;
         console.log(i);
+     $("#debugc").text(i);         
         //console.log(x[iter]);
         result = true;
       }
@@ -256,9 +269,20 @@ function touchDown(e){
 
   function checkIfDeadI(e){  
     if(DOTS[i] === "Blue"){
-      if(e.pageX > IBLUE[0] && e.pageX < IBLUE[1]
-      && e.pageY > IBLUE[2] && e.pageY < IBLUE[3]){
+     //$("#debugd").text("blue");      
+     //$("#debuga").text((e.pageX > IBLUE[0]));      
+     //$("#debugb").text(e.pageX < IBLUE[1]);      
+     //$("#debugc").text(e.pageY > IBLUE[2] );      
+     //$("#debugd").text(e.pageY < IBLUE[3]);      
+     $("#debuga").text(e.pageX);      
+     $("#debugb").text(e.pageX);      
+     $("#debugc").text(e.pageY);      
+     $("#debugd").text(e.pageY);           
+
+      if(end_x > IBLUE[0] && end_x < IBLUE[1]
+      && end_y > IBLUE[2] && end_y < IBLUE[3]){
         console.log("yes");
+     //$("#debuge").text("yes");       
         blue_live = false;     
       }
     } else if (DOTS[i] === "Red"){
