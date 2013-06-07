@@ -20,3 +20,6 @@ Thu
 basic functionality in place. would love to objectify, add tests, comment code. may not have time :(
 ++ congratulate the user!!
 
+Won't be able to do all tests - but how would you test the ipad implementation at all?
+
+Issues with "this" and passing e around.
