@@ -1,5 +1,11 @@
-function init(){
 
+function main(){
+  var canvasLogo = new CanvasLogo();
+  canvasLogo.init();
+  setInterval(function(){canvasLogo.drawAll()},10);
+}
+
+var CanvasLogo = function(){
   var canvas;
   var ctx;
   var i = 0;
@@ -20,119 +26,40 @@ function init(){
   var end_x=0;
   var end_y=0;
 
-  var isIOS = ((/iphone|ipad/gi).test(navigator.appVersion));
+  var isIOS = ((/iphone|ipad/gi).test(navigator.appVersion));  
 
-  var CanvasLogo = function(){
+  var thisRef = this;
 
-    var thisRef = this;
+  this.init = function(){
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    this.setEndSpotsForDevice(); 
 
-    this.setup = function(){
-      canvas = document.getElementById("canvas");
-      ctx = canvas.getContext("2d");
-      this.setEndSpotsForDevice(); 
+    if (isIOS) {
+      canvas.addEventListener("touchstart", this.mouseTouchStart, false);
+      canvas.addEventListener("touchmove", this.mouseTouchMove, false); 
+      canvas.addEventListener("touchend", this.mouseTouchEnd, false);      
 
-      if (isIOS) {
-        canvas.addEventListener("touchstart", this.mouseTouchStart, false);
-        canvas.addEventListener("touchmove", this.mouseTouchMove, false); 
-        canvas.addEventListener("touchend", this.mouseTouchEnd, false);      
+      var c = $("#canvas_container").detach();
+      $("#wrapper").height(560);
+      c.appendTo("#new_canvas_container");
 
-        var c = $("#canvas_container").detach();
-        $("#wrapper").height(560);
-        c.appendTo("#new_canvas_container");
+    } else {
+      canvas.addEventListener("mousedown", this.mouseTouchStart, false);
+      canvas.addEventListener("mousemove", this.mouseTouchMove, false); 
+      canvas.addEventListener("mouseup", this.mouseTouchEnd, false);      
+    }      
+  }   
 
-      } else {
-        canvas.addEventListener("mousedown", this.mouseTouchStart, false);
-        canvas.addEventListener("mousemove", this.mouseTouchMove, false); 
-        canvas.addEventListener("mouseup", this.mouseTouchEnd, false);      
-      }      
-    }   
-
-    this.mouseTouchStart = function(e){
-      var coords = thisRef.deviceCoords(e, false);
-      var xRHS = coords[0];
-      var yRHS = coords[1];
-
-      if (thisRef.isOnShape(e) && thisRef.isLive(e)){
-        x[i] = xRHS;      
-        y[i] = yRHS;
-        dragok = true;
-      }
+  this.setEndSpotsForDevice = function(){ 
+    if(isIOS){
+      RANGE_ARRAY = [[500,740],[620,745],[415,925],[350,830],[600,890]];
+    } else {
+      RANGE_ARRAY = [[210,157],[332,173],[123,347],[60,253],[305,317]];  
     }
+  }  
 
-    this.mouseTouchEnd = function(e){    
-      dragok = false;
-      thisRef.checkIfDead(e);
-    }
-
-    this.mouseTouchMove = function(e){  
-      var coords = thisRef.deviceCoords(e, false);
-      var xRHS = coords[0];
-      var yRHS = coords[1];
-
-      if (!e)
-        e = event;
-      e.preventDefault();
-
-      if (dragok){
-        x[i] = xRHS;
-        y[i] = yRHS;
-      }
-      
-      end_x = e.pageX;
-      end_y = e.pageY; 
-    }
-
-    this.isOnShape = function(e){    
-      var coords = thisRef.deviceCoords(e, false);
-      var xVar = coords[0];
-      var yVar = coords[1];
-
-      var result = false;
-      for(var iter = 0; iter < COLORS.length; iter++){
-        if (xVar < x[iter] + BUFFER && 
-          xVar > x[iter] - BUFFER && 
-          yVar < y[iter] + BUFFER &&
-          yVar > y[iter] - BUFFER ){
-          i = iter;
-          result = true;
-        } 
-      }    
-
-    return result;
-
-    }
-
-    this.checkIfDead = function(e){  
-      var coords = thisRef.deviceCoords(e, true);
-      var xVar = coords[0];
-      var yVar = coords[1];
-
-      if(DOTS[i] === "Blue"){
-        if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[0])){
-          liveArray[i] = false;       
-        }
-      } else if (DOTS[i] === "Red"){
-          if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[1])){
-            liveArray[i] = false;          
-          } 
-      } else if (DOTS[i] === "Green"){
-          if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[2])){
-            liveArray[i] = false;    
-          } 
-      } else if (DOTS[i] === "Black1"){
-          if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[3])){
-            liveArray[i] = false;    
-          } 
-      } else if (DOTS[i] === "Black2"){
-          if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[4])){
-            liveArray[i] = false;     
-          }
-      }
-    } 
-
-  } 
-
-  CanvasLogo.prototype.drawAll = function(){
+  this.drawAll = function(){
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     ctx.fillStyle = "#FFFFFF";     
 
@@ -148,45 +75,49 @@ function init(){
     }
   }    
 
-  CanvasLogo.prototype.arc = function(x,y){
+  this.arc = function(x,y){
     ctx.beginPath();
     ctx.arc(x,y, 30, 0, Math.PI*2, true);
     ctx.closePath();
     ctx.fill();
-  }    
+  }         
 
-  CanvasLogo.prototype.setEndSpotsForDevice = function(){ 
-    if(isIOS){
-      RANGE_ARRAY = [[500,740],[620,745],[415,925],[350,830],[600,890]];
-    } else {
-      RANGE_ARRAY = [[210,157],[332,173],[123,347],[60,253],[305,317]];  
-    }
-  }  
+  this.mouseTouchStart = function(e){
+    var coords = thisRef.deviceCoords(e, false);
+    var xRHS = coords[0];
+    var yRHS = coords[1];
 
-  CanvasLogo.prototype.inEndRange = function(x, y, colorMinMax){ 
-    if (x > colorMinMax[0] - BUFFER && x < colorMinMax[0] + BUFFER
-    && y > colorMinMax[1] - BUFFER && y < colorMinMax[1] + BUFFER){
-      return true;
-    } else {
-      return false;
+    if (thisRef.isOnShape(e) && thisRef.isLive(e)){
+      x[i] = xRHS;      
+      y[i] = yRHS;
+      dragok = true;
     }
   }
 
-  CanvasLogo.prototype.isLive = function(e){
-    if(DOTS[i] === "Blue"){
-      return liveArray[i];
-    } else if (DOTS[i] === "Red"){
-      return liveArray[i];
-    } else if (DOTS[i] === "Green"){
-      return liveArray[i];
-    } else if (DOTS[i] === "Black1"){
-      return liveArray[i];
-    } else if (DOTS[i] === "Black2"){
-      return liveArray[i];
-    }
-  }      
+  this.mouseTouchMove = function(e){  
+    var coords = thisRef.deviceCoords(e, false);
+    var xRHS = coords[0];
+    var yRHS = coords[1];
 
-  CanvasLogo.prototype.deviceCoords = function(e, last){
+    if (!e)
+      e = event;
+    e.preventDefault();
+
+    if (dragok){
+      x[i] = xRHS;
+      y[i] = yRHS;
+    }
+    
+    end_x = e.pageX;
+    end_y = e.pageY; 
+  }
+
+  this.mouseTouchEnd = function(e){    
+    dragok = false;
+    thisRef.checkIfDead(e);
+  }
+
+  this.deviceCoords = function(e, last){
     if (isIOS) {
       if (last) {
         //touchend loses coordinates!! this is a workaround.
@@ -208,11 +139,77 @@ function init(){
     return [xVar, yVar];
   } 
 
+  this.isOnShape = function(e){    
+    var coords = thisRef.deviceCoords(e, false);
+    var xVar = coords[0];
+    var yVar = coords[1];
 
-  var canvasLogo = new CanvasLogo();
-  canvasLogo.setup();
-  setInterval(function(){canvasLogo.drawAll()},10);
+    var result = false;
+    for(var iter = 0; iter < COLORS.length; iter++){
+      if (xVar < x[iter] + BUFFER && 
+        xVar > x[iter] - BUFFER && 
+        yVar < y[iter] + BUFFER &&
+        yVar > y[iter] - BUFFER ){
+        i = iter;
+        result = true;
+      } 
+    }    
 
-}
+    return result;
 
-$(init);
+  }
+
+  this.isLive = function(e){
+    if(DOTS[i] === "Blue"){
+      return liveArray[i];
+    } else if (DOTS[i] === "Red"){
+      return liveArray[i];
+    } else if (DOTS[i] === "Green"){
+      return liveArray[i];
+    } else if (DOTS[i] === "Black1"){
+      return liveArray[i];
+    } else if (DOTS[i] === "Black2"){
+      return liveArray[i];
+    }
+  } 
+
+  this.checkIfDead = function(e){  
+    var coords = thisRef.deviceCoords(e, true);
+    var xVar = coords[0];
+    var yVar = coords[1];
+
+    if(DOTS[i] === "Blue"){
+      if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[0])){
+        liveArray[i] = false;       
+      }
+    } else if (DOTS[i] === "Red"){
+        if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[1])){
+          liveArray[i] = false;          
+        } 
+    } else if (DOTS[i] === "Green"){
+        if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[2])){
+          liveArray[i] = false;    
+        } 
+    } else if (DOTS[i] === "Black1"){
+        if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[3])){
+          liveArray[i] = false;    
+        } 
+    } else if (DOTS[i] === "Black2"){
+        if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[4])){
+          liveArray[i] = false;     
+        }
+    }
+  }  
+
+  this.inEndRange = function(x, y, colorMinMax){ 
+    if (x > colorMinMax[0] - BUFFER && x < colorMinMax[0] + BUFFER
+    && y > colorMinMax[1] - BUFFER && y < colorMinMax[1] + BUFFER){
+      return true;
+    } else {
+      return false;
+    }
+  }   
+
+} 
+
+$(main);
