@@ -26,11 +26,6 @@ li {
 	display: inline;
 }
 
-div[id*="message"]  {
-	display:block;
-	text-align: center;
-}
-
 img[id*="dot"] {
   width: 3.75em;
 	margin: 0 auto;	

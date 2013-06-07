@@ -1,8 +1,7 @@
-
 function main(){
+  var intervalId;
   var canvasLogo = new CanvasLogo();
-  canvasLogo.init();
-  setInterval(function(){canvasLogo.drawAll()},10);
+  canvasLogo.init(intervalId);
 }
 
 var CanvasLogo = function(){
@@ -28,13 +27,12 @@ var CanvasLogo = function(){
   var dotsInPlace = 0;
   var isIOS = ((/iphone|ipad/gi).test(navigator.appVersion));  
 
-  var thisRef = this;
+  var thisRef = this; 
 
   this.init = function(){
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     this.setEndSpotsForDevice(); 
-    $('#canvas_message').html('');
 
     if (isIOS) {
       canvas.addEventListener("touchstart", this.mouseTouchStart, false);
@@ -50,6 +48,9 @@ var CanvasLogo = function(){
       canvas.addEventListener("mousemove", this.mouseTouchMove, false); 
       canvas.addEventListener("mouseup", this.mouseTouchEnd, false);      
     }      
+
+    intervalId = setInterval(function(){thisRef .drawAll(intervalId)},10); 
+
   }   
 
   this.setEndSpotsForDevice = function(){ 
@@ -60,7 +61,7 @@ var CanvasLogo = function(){
     }
   }  
 
-  this.drawAll = function(){
+  this.drawAll = function(intervalId){
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     ctx.fillStyle = "#FFFFFF";     
 
@@ -75,7 +76,7 @@ var CanvasLogo = function(){
       this.arc(x[idx], y[idx]);        
     }
 
-    this.checkIfDone();
+    this.checkIfDone(intervalId);
   }    
 
   this.arc = function(x,y){
@@ -218,9 +219,10 @@ var CanvasLogo = function(){
     }
   }  
 
-  this.checkIfDone = function(){
+  this.checkIfDone = function(intervalId){
     if (dotsInPlace >= RANGE_ARRAY.length) {
-      $('#canvas_message').html('<p>You won!!</p>');
+      window.alert("Congratulations.. You won!!");
+      clearInterval(intervalId);
     }
   }   
 

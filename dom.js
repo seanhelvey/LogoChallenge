@@ -68,7 +68,7 @@ var DomLogo = function() {
 
   this.checkIfDone = function(){
     if (dotsInPlace >= RANGE_ARRAY.length) {
-      $('#dom_message').html('<p>You won!!</p>');
+      window.alert("Congratulations.. You won!!");
     }
   }
 
