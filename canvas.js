@@ -25,7 +25,7 @@ var CanvasLogo = function(){
 
   var end_x=0;
   var end_y=0;
-
+  var dotsInPlace = 0;
   var isIOS = ((/iphone|ipad/gi).test(navigator.appVersion));  
 
   var thisRef = this;
@@ -34,6 +34,7 @@ var CanvasLogo = function(){
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     this.setEndSpotsForDevice(); 
+    $('#canvas_message').html('');
 
     if (isIOS) {
       canvas.addEventListener("touchstart", this.mouseTouchStart, false);
@@ -73,6 +74,8 @@ var CanvasLogo = function(){
       ctx.fillStyle = COLORS[idx];
       this.arc(x[idx], y[idx]);        
     }
+
+    this.checkIfDone();
   }    
 
   this.arc = function(x,y){
@@ -181,22 +184,27 @@ var CanvasLogo = function(){
     if(DOTS[i] === "Blue"){
       if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[0])){
         liveArray[i] = false;       
+        dotsInPlace++;          
       }
     } else if (DOTS[i] === "Red"){
         if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[1])){
           liveArray[i] = false;          
+          dotsInPlace++;            
         } 
     } else if (DOTS[i] === "Green"){
         if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[2])){
           liveArray[i] = false;    
+          dotsInPlace++;            
         } 
     } else if (DOTS[i] === "Black1"){
         if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[3])){
           liveArray[i] = false;    
+          dotsInPlace++;            
         } 
     } else if (DOTS[i] === "Black2"){
         if(thisRef.inEndRange(xVar, yVar, RANGE_ARRAY[4])){
-          liveArray[i] = false;     
+          liveArray[i] = false;   
+          dotsInPlace++;              
         }
     }
   }  
@@ -207,6 +215,12 @@ var CanvasLogo = function(){
       return true;
     } else {
       return false;
+    }
+  }  
+
+  this.checkIfDone = function(){
+    if (dotsInPlace >= RANGE_ARRAY.length) {
+      $('#canvas_message').html('<p>You won!!</p>');
     }
   }   
 
